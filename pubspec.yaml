@@ -1,28 +1,20 @@
-name: Build Android APK
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:   # lets you run it manually from the Actions tab
+name: study_tracker
+description: Track study progress per subject with history and charts.
+publish_to: 'none'
+version: 1.0.0+1
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+environment:
+  sdk: '>=3.0.0 <4.0.0'
 
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: stable
-          channel: stable
+dependencies:
+  flutter:
+    sdk: flutter
 
-      # Generates the missing android/ platform folder (we only uploaded lib/ + pubspec.yaml)
-      - run: flutter create --project-name study_tracker --platforms android --org com.example .
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
 
-      - run: flutter pub get
-      - run: flutter build apk --release
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: study_tracker_apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+flutter:
+  uses-material-design: true
 
